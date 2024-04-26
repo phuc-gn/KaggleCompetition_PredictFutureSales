@@ -162,3 +162,4 @@ cython_debug/
 # user-define
 submissions/
 data/*.csv
+data/*.zip
