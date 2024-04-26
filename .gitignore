@@ -161,4 +161,4 @@ cython_debug/
 
 # user-define
 submissions/
-data/
+data/*.csv
