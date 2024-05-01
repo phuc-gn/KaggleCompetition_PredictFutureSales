@@ -9,8 +9,8 @@ from torch.utils.data import DataLoader
 
 from data import Sales
 from model import SalesLSTM as model_, config_lstm as config_
-from trainer import train, checkpoint
-from utils import set_device
+from trainer import train, val, checkpoint
+from utils import set_device, preprocess
 
 
 def main():
@@ -24,13 +24,20 @@ def main():
     device = set_device(args.device)
 
     data_path = '../../data/sales_train.csv'
+    data = preprocess(data_path)
 
-    data = Sales(data_path)
+    train_data = Sales(data, train = True)
+    val_data = Sales(data, train = False)
 
-    train_dataloader = DataLoader(data,
+    train_dataloader = DataLoader(train_data,
                                   batch_size = args.batch_size,
-                                  shuffle = True,
+                                  shuffle = False,
                                   pin_memory = True)
+    
+    val_dataloader = DataLoader(val_data,
+                                batch_size = args.batch_size,
+                                shuffle = False,
+                                pin_memory = True)
 
     model = model_(**config_()).to(device)
     criteria = nn.MSELoss()
@@ -43,6 +50,7 @@ def main():
 
     for epoch in range(args.epochs):
         train(model, criteria, train_dataloader, optimiser, device, epoch, training_loss)
+        val(model, criteria, val_dataloader, device, training_loss)
         scheduler.step()
 
     time_end = timeit.default_timer()

@@ -6,18 +6,6 @@ from sklearn.preprocessing import StandardScaler
 import torch
 from torch.utils.data import Dataset
 
-
-def preprocess(path):
-    data = pd.read_csv(path)
-    data['item_cnt_day'] = data['item_cnt_day'].clip(lower = 0)
-    data = data.groupby(['date_block_num', 'shop_id', 'item_id'])['item_cnt_day'].sum().reset_index()
-    data.rename(columns = {'item_cnt_day': 'item_cnt_month'}, inplace = True)
-    data = data.pivot_table(index = ['shop_id', 'item_id'], columns = 'date_block_num', values = 'item_cnt_month', fill_value = 0)
-    data = data.loc[(data > 0).sum(axis = 1) >= 1]
-
-    return data.values
-
-
 class Sales(Dataset):
     """
     A custom dataset class for sales data.
@@ -33,8 +21,11 @@ class Sales(Dataset):
         __getitem__: Returns a specific item from the dataset.
 
     """
-    def __init__(self, path):
-        self.data = torch.tensor(preprocess(path), dtype = torch.float32)
+    def __init__(self, data, train = True):
+        if train:
+            self.data = torch.tensor(data[:, :-1], dtype = torch.float32)
+        else:
+            self.data = torch.tensor(data[:, 1:], dtype = torch.float32)
 
     def __len__(self):
         """

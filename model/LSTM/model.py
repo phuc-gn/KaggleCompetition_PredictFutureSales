@@ -3,7 +3,7 @@ import torch.nn as nn
 
 def config_lstm():
     return {
-        'input_size': 33,
+        'input_size': 32,
         'hidden_size': 16,
         'num_layers': 2,
         'dropout': 0.2
@@ -12,7 +12,7 @@ def config_lstm():
 
 def config_gru():
     return {
-        'input_size': 33,
+        'input_size': 32,
         'hidden_size': 16,
         'num_layers': 2,
         'dropout': 0.2
