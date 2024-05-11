@@ -13,7 +13,17 @@ def preprocess(path):
     data = data.groupby(['date_block_num', 'shop_id', 'item_id'])['item_cnt_day'].sum().reset_index()
     data.rename(columns = {'item_cnt_day': 'item_cnt_month'}, inplace = True)
     data = data.pivot_table(index = ['shop_id', 'item_id'], columns = 'date_block_num', values = 'item_cnt_month', fill_value = 0)
-    data = data.loc[(data > 0).sum(axis = 1) >= 1]
+    data = data.loc[(data > 0).sum(axis = 1) > 0]
+
+    features = pd.DataFrame()
+    features['median'] = data.median(axis = 1)
+    features['std'] = data.std(axis = 1)
+    features['max'] = data.max(axis = 1)
+    features['min'] = data.min(axis = 1)
+    features['skew'] = data.skew(axis = 1)
+    features['iqr'] = data.quantile(0.75, axis = 1) - data.quantile(0.25, axis = 1)
+
+    data = pd.concat([features, data], axis = 1)
 
     return data.values
 

@@ -18,7 +18,7 @@ def main():
     parser.add_argument('--epochs', type = int, default = 3, help = 'Number of epochs to train the model')
     parser.add_argument('--lr', type = float, default = 1e-4, help = 'Learning rate for the optimiser')
     parser.add_argument('--batch_size', type = int, default = 32, help = 'Batch size for the dataloader')
-    parser.add_argument('--device', type = str, default = 'cuda', help = 'Device to train the model on')
+    parser.add_argument('--device', type = str, default = 'cpu', help = 'Device to train the model on')
     args = parser.parse_args()
 
     device = set_device(args.device)

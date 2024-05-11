@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 
 
@@ -41,7 +42,7 @@ class SalesLSTM(nn.Module):
     def __init__(self, input_size, hidden_size, num_layers, dropout):
         super().__init__()
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout = dropout, batch_first = True)
-        self.fc = nn.Linear(hidden_size, 1)
+        self.fc = nn.Linear(hidden_size + 6, 1)
 
     def __call__(self, x):
         """
@@ -54,8 +55,12 @@ class SalesLSTM(nn.Module):
             torch.Tensor: Output tensor of shape (batch_size, sequence_length)
 
         """
-        out, _ = self.lstm(x)
+        input_fc = x[:, :6]
+        input_lstm = x[:, 6:]
+        out, _ = self.lstm(input_lstm)
+        out = torch.cat((input_fc, out), dim = 1)
         out = self.fc(out)
+
         return out.reshape(-1)
 
   

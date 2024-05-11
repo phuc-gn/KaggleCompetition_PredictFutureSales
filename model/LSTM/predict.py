@@ -26,6 +26,16 @@ def prepare_data(data_path, test_path):
     test_df = test_df.drop(columns = ['shop_id', 'item_id', 'ID'])
     test_df = test_df.iloc[:, 1:]
 
+    features = pd.DataFrame()
+    features['median'] = test_df.median(axis = 1)
+    features['std'] = test_df.std(axis = 1)
+    features['max'] = test_df.max(axis = 1)
+    features['min'] = test_df.min(axis = 1)
+    features['skew'] = test_df.skew(axis = 1)
+    features['iqr'] = test_df.quantile(0.75, axis = 1) - test_df.quantile(0.25, axis = 1)
+
+    test_df = pd.concat([features, test_df], axis = 1)
+
     return test_df, ID_col
 
 
@@ -37,7 +47,7 @@ def predict(model, data):
 
 def main():
     parser = argparse.ArgumentParser(description = 'Predict sales')
-    parser.add_argument('--device', type = str, default = 'cuda', help = 'Device to predict on')
+    parser.add_argument('--device', type = str, default = 'cpu', help = 'Device to predict on')
     args = parser.parse_args()
 
     device = set_device(args.device)
