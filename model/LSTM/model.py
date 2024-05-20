@@ -4,7 +4,7 @@ import torch.nn as nn
 def config_lstm():
     return {
         'input_size': 33,
-        'hidden_size': 16,
+        'hidden_size': 256,
         'num_layers': 2,
         'dropout': 0.2
     }
