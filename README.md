@@ -1,6 +1,4 @@
-Based on the directory structure you provided, here is an updated `README.md` file for your project "Predict Future Sales Using LSTM Implemented in PyTorch":
-
-# Predict Future Sales Using LSTM Implemented in PyTorch
+# Predict Future Sales Using LSTM
 
 ## Project Overview
 
@@ -12,13 +10,10 @@ The "Predict Future Sales" project leverages Long Short-Term Memory (LSTM) netwo
 - [Directory Structure](#directory-structure)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Dataset](#dataset)
 - [Model Architecture](#model-architecture)
 - [Training](#training)
 - [Evaluation](#evaluation)
 - [Results](#results)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Directory Structure
 
