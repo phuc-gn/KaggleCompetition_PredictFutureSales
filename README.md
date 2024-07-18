@@ -87,7 +87,7 @@ Evaluate the trained model on the test set:
 python predict.py
 ```
 
-Navigate to folder `submissions` and submit `submission.csv` to Kaggle Competition.
+Navigate to the `submissions` folder and submit `submission.csv` to the Kaggle competition.
 
 ## Model Architecture
 
